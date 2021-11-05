@@ -1,31 +1,32 @@
 {
-    "name": "future/lara-auth-api",
+    "name": "future/lara-api-auth",
     "description": "Laravel пакет авторизаций по api",
     "type": "library",
     "license": "future",
-    "autoload": {
-        "psr-4": {
-            "Future\\LaraAuthApi\\": "src/"
-        }
-    },
     "authors": [
         {
             "name": "Zair Nurmukhamadov",
             "email": "nurmukhamadov.z@future-group.ru"
         }
     ],
+    "require": {
+        "php": "^8.0"
+    },
+    "require-dev": {
+        "illuminate/support": "^8.69",
+        "orchestra/testbench": "^6.22"
+    },
+    "autoload": {
+        "psr-4": {
+            "Future\\LaraApiAuth\\": "src/"
+        }
+    },
     "extra": {
         "laravel": {
             "providers": [
-                "Future\\LaraAuthApi\\LaraAuthApiServiceProvider"
-            ],
-            "aliases": {
-                "LaraAuthApi": "Future\\LaraAuthApi\\LaraAuthApiFacade"
-            }
+                "Future\\LaraApiAuth\\LaraApiAuthServiceProvider"
+            ]
         }
     },
-    "minimum-stability": "stable",
-    "require-dev": {
-        "illuminate/support": "^8.69"
-    }
+    "minimum-stability": "stable"
 }

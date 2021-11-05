@@ -1,13 +1,13 @@
 <?php
 
-namespace Future\LaraAuthApi;
+namespace Future\LaraApiAuth;
 
 use Illuminate\Support\Facades\Facade;
 
-class LaraAuthApiFacade extends Facade
+class LaraApiAuthFacade extends Facade
 {
 	protected static function getFacadeAccessor()
 	{
-		return 'lara-auth-api';
+		return 'lara-api-auth';
 	}
 }
