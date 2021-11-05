@@ -10,7 +10,8 @@
         }
     ],
     "require": {
-        "php": "^8.0"
+        "php": "^8.0",
+        "laravel/passport": "^10.2"
     },
     "require-dev": {
         "illuminate/support": "^8.69",
