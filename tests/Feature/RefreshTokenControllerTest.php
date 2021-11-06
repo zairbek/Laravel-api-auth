@@ -2,47 +2,50 @@
 
 namespace Future\LaraApiAuth\Tests\Feature;
 
+use Future\LaraApiAuth\Adapters\Passport;
 use Future\LaraApiAuth\Tests\Mocks\User;
 use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Passport\Database\Factories\ClientFactory;
 
-class SignInControllerTest extends FeatureTestCase
+class RefreshTokenControllerTest extends FeatureTestCase
 {
-	private User $user;
+	private array $tokens;
 	private Collection|Model $client;
 
 	protected function setUp(): void
 	{
 		parent::setUp();
 
-		$this->user = new User();
-		$this->user->email = 'test@gmail.com';
-		$this->user->password = $this->app->make(Hasher::class)->make('12345678');
-		$this->user->save();
+		$user = new User();
+		$user->email = 'test@gmail.com';
+		$user->password = $this->app->make(Hasher::class)->make('12345678');
+		$user->save();
 
 		$this->client = ClientFactory::new()->asPasswordClient()->create();
+
+		$this->tokens = Passport::getTokenAndRefreshToken([
+			'client_id' => $this->client->id,
+			'client_secret' => $this->client->secret,
+			'email' => $user->email,
+			'password' => '12345678'
+		]);
 	}
 
-	protected function tearDown(): void
+	public function test(): void
 	{
-		@unlink($this->user);
+		$this->encryptCookies = false;
 
-		parent::tearDown();
-	}
-
-	public function testSuccessfullySignIn()
-	{
 		$response = $this
 			->withHeaders([
-				'client-id' => $this->client->id,
-				'client-secret' => $this->client->secret
+				'Accept' => 'application/json',
+				'Client-Id' => $this->client->id,
+				'Client-Secret' => $this->client->secret
 			])
-			->postJson('/api/auth/sign-in', [
-				'email' => $this->user->email,
-				'password' => '12345678'
-			]);
+			->withCookie('refresh-token', $this->tokens['refresh_token'])
+			->post('/api/auth/refresh-token')
+		;
 
 		$response->assertSuccessful();
 

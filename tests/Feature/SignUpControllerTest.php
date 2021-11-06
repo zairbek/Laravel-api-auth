@@ -2,17 +2,13 @@
 
 namespace Future\LaraApiAuth\Tests\Feature;
 
-use Future\LaraApiAuth\Adapters\Cookie;
 use Future\LaraApiAuth\Tests\Mocks\User;
-use Future\LaraApiAuth\Tests\TestCase;
 use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Laravel\Passport\Database\Factories\ClientFactory;
 
-class SignUpControllerTest extends TestCase
+class SignUpControllerTest extends FeatureTestCase
 {
 	private Collection|Model $client;
 
@@ -20,19 +16,12 @@ class SignUpControllerTest extends TestCase
 	{
 		parent::setUp();
 
-		Schema::create('users', function (Blueprint $table) {
-			$table->increments('id');
-			$table->string('email')->unique();
-			$table->string('password');
-			$table->timestamps();
-		});
-
 		$this->client = ClientFactory::new()->asPasswordClient()->create();
 	}
 
 	protected function tearDown(): void
 	{
-		Schema::dropIfExists('users');
+		@unlink($this->client);
 
 		parent::tearDown();
 	}
