@@ -4,6 +4,7 @@ use Future\LaraApiAuth\Http\Controllers\Auth\SignOutController;
 use Future\LaraApiAuth\Http\Controllers\Auth\RefreshController;
 use Future\LaraApiAuth\Http\Controllers\Auth\SignInController;
 use Future\LaraApiAuth\Http\Controllers\Auth\SignUpController;
+use Future\LaraApiAuth\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'api'], function () {
@@ -15,4 +16,6 @@ Route::group(['prefix' => 'api'], function () {
 		Route::post('refresh-token', [RefreshController::class, 'refreshToken'])->name('laraApiAuth.refreshToken');
 		Route::get('sign-out', [SignOutController::class, 'signOut'])->middleware('auth:api')->name('laraApiAuth.signOut');
 	});
+
+	Route::get('/me', [UserController::class, 'user'])->middleware('auth:api')->name('laraApiAuth.me');
 });
