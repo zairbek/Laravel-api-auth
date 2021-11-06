@@ -2,7 +2,6 @@
 
 namespace Future\LaraApiAuth\Tests\Feature;
 
-use Future\LaraApiAuth\Adapters\Cookie;
 use Future\LaraApiAuth\Tests\Mocks\User;
 use Future\LaraApiAuth\Tests\TestCase;
 use Illuminate\Contracts\Hashing\Hasher;
@@ -33,8 +32,7 @@ class SignInControllerTest extends TestCase
 		$this->user->password = $this->app->make(Hasher::class)->make('12345678');
 		$this->user->save();
 
-		$this->client = ClientFactory::new()->asPasswordClient()->create(['user_id' => $this->user->id]);
-
+		$this->client = ClientFactory::new()->asPasswordClient()->create();
 	}
 
 	protected function tearDown(): void
@@ -53,9 +51,9 @@ class SignInControllerTest extends TestCase
 				'client-secret' => $this->client->secret
 			])
 			->postJson('/api/auth/sign-in', [
-			'email' => $this->user->email,
-			'password' => '12345678'
-		]);
+				'email' => $this->user->email,
+				'password' => '12345678'
+			]);
 
 		$response->assertSuccessful();
 
