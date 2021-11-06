@@ -11,7 +11,9 @@
     ],
     "require": {
         "php": "^8.0",
-        "laravel/passport": "^10.2"
+        "laravel/passport": "^10.2",
+        "phpunit/phpunit": "^9.5",
+        "guzzlehttp/guzzle": "^7.4"
     },
     "require-dev": {
         "illuminate/support": "^8.69",
@@ -22,12 +24,25 @@
             "Future\\LaraApiAuth\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Future\\LaraApiAuth\\Tests\\": "tests/"
+        }
+    },
     "extra": {
         "laravel": {
             "providers": [
                 "Future\\LaraApiAuth\\LaraApiAuthServiceProvider"
             ]
         }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "@php ./vendor/bin/testbench package:discover --ansi"
+        ],
+        "tests": [
+            "vendor/bin/phpunit --verbose"
+        ]
     },
     "minimum-stability": "stable"
 }
