@@ -11,6 +11,8 @@ use League\OAuth2\Server\AuthorizationServer;
 class Passport
 {
 	/**
+	 * @param array $request
+	 * @return mixed
 	 * @throws JsonException
 	 * @throws \League\OAuth2\Server\Exception\OAuthServerException
 	 */
