@@ -8,6 +8,10 @@
 - [ ] Обработать exception 
 - [ ] Дописать тесты (Unit)
 - [ ] ответы ошибок - swagger документация (docs/swagger.json)
+- [ ] Нужно перенести на gitlab
+- [ ] Написать CI/CD
+    - [ ] Запускать тесты
+    - [ ] Публикация в Package Registry (Packages & Registries -> Package Registry)
 
 ## API документация
 Api документация написано на swagger-e  
