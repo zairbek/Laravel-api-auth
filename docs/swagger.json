@@ -19,6 +19,24 @@
         "summary": "Регистрация",
         "description": "Регистрация нового пользователя",
         "operationId": "sign-up",
+        "parameters": [
+          {
+            "name": "Client-Id",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Client-Secret",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -74,6 +92,24 @@
         "summary": "Аутентификация",
         "description": "Аутентификация",
         "operationId": "sign-in",
+        "parameters": [
+          {
+            "name": "Client-Id",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Client-Secret",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -125,6 +161,22 @@
         "description": "Обновления refresh-token и access-token",
         "operationId": "refresh-token",
         "parameters": [
+          {
+            "name": "Client-Id",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Client-Secret",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "refresh-token",
             "in": "cookie",
