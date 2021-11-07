@@ -19,11 +19,17 @@ class RefreshController extends Controller
 	 */
 	public function refreshToken(Request $request): JsonResponse
 	{
+		$clientCredentials = [
+			'client_id' => $request->header('client-id'),
+			'client_secret' => $request->header('client-secret'),
+		];
+
+		if (! $this->validateClientCredentials($clientCredentials)) {
+			return $this->sendUnauthorizedResponse('Unauthorized: Check please Client Id and Client Secret');
+		}
+
 		$tokens = Passport::generateRefreshToken(
-			[
-				'client_id' => $request->header('client-id'),
-				'client_secret' => $request->header('client-secret'),
-			],
+			$clientCredentials,
 			$request->cookie('refresh-token')
 		);
 

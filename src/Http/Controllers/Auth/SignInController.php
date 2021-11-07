@@ -36,6 +36,10 @@ class SignInController extends Controller
 			'client_secret' => $request->header('Client-Secret'),
 		];
 
+		if (! $this->validateClientCredentials($clientCredentials)) {
+			return $this->sendUnauthorizedResponse('Unauthorized: Check please Client Id and Client Secret');
+		}
+
 		$tokens = PassportAdapter::getTokenAndRefreshToken(array_merge($clientCredentials, $credentials));
 
 		return $this->sendLoginResponse($tokens);

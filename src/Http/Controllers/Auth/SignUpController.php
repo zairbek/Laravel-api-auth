@@ -9,7 +9,6 @@ use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
 
 class SignUpController extends Controller
@@ -27,7 +26,7 @@ class SignUpController extends Controller
 	 * @throws \JsonException
 	 * @throws \Illuminate\Contracts\Container\BindingResolutionException
 	 */
-	public function signUp(Request $request)
+	public function signUp(Request $request): JsonResponse
 	{
 		$request->replace(
 			['email' => strtolower($request->email)] + $request->toArray()
@@ -35,11 +34,18 @@ class SignUpController extends Controller
 
 		$this->validateCredentials($request);
 
-		$this->registerUser($request);
-
-		$tokens = PassportAdapter::getTokenAndRefreshToken([
+		$clientCredentials = [
 			'client_id' => $request->header('Client-Id'),
 			'client_secret' => $request->header('Client-Secret'),
+		];
+
+		if (! $this->validateClientCredentials($clientCredentials)) {
+			return $this->sendUnauthorizedResponse('Unauthorized: Check please Client Id and Client Secret');
+		}
+
+		$this->registerUser($request);
+
+		$tokens = PassportAdapter::getTokenAndRefreshToken($clientCredentials + [
 			'email' => $this->userModel->email,
 			'password' => $request->password,
 		]);

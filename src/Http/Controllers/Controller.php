@@ -25,6 +25,21 @@ abstract class Controller extends LaravelBaseController
 	}
 
 	/**
+	 * @param array $clientCredentials
+	 * array(
+	 * 		"client_id" => 1,
+	 * 		"client_secret" => 'fake'
+	 * )
+	 * @return bool
+	 */
+	protected function validateClientCredentials(array $clientCredentials): bool
+	{
+		return isset($clientCredentials['client_id'], $clientCredentials['client_secret'])
+			&& !is_null($clientCredentials['client_id'])
+			&& !is_null($clientCredentials['client_secret']);
+	}
+
+	/**
 	 * @param array $tokens
 	 * @return JsonResponse
 	 */
@@ -39,5 +54,10 @@ abstract class Controller extends LaravelBaseController
 			])
 			->withCookie(CookieAdapter::make($tokens['refresh_token']))
 		;
+	}
+
+	protected function sendUnauthorizedResponse(string $response): JsonResponse
+	{
+		return Response::json($response, 401);
 	}
 }
