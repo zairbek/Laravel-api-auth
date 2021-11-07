@@ -5,6 +5,7 @@ namespace Future\LaraApiAuth\Http\Controllers\Auth;
 use Future\LaraApiAuth\Adapters\Cookie as CookieAdapter;
 use Future\LaraApiAuth\Adapters\Passport as PassportAdapter;
 use Future\LaraApiAuth\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
@@ -19,10 +20,7 @@ class SignInController extends Controller
 	 */
 	public function signIn(Request $request)
 	{
-		$this->validate($request, [
-			'email' => ['required', 'email', 'string'],
-			'password' => ['required', 'string'],
-		]);
+		$this->validateCredentials($request);
 
 		$credentials = [
 			'email' => $request->email,
@@ -40,15 +38,15 @@ class SignInController extends Controller
 
 		$tokens = PassportAdapter::getTokenAndRefreshToken(array_merge($clientCredentials, $credentials));
 
-		return Response::json([
-				'token' => [
-					'token_type' => $tokens['token_type'],
-					'expires_in' => $tokens['expires_in'],
-					'access_token' => $tokens['access_token'],
-				]
-			])
-			->withCookie(CookieAdapter::make($tokens['refresh_token']))
-		;
+		return $this->sendLoginResponse($tokens);
+	}
+
+	protected function validateCredentials(Request $request): void
+	{
+		$this->validate($request, [
+			'email' => ['required', 'email', 'string'],
+			'password' => ['required', 'string'],
+		]);
 	}
 
 	/**
@@ -57,9 +55,9 @@ class SignInController extends Controller
 	 * @param array $credentials
 	 * @return bool
 	 */
-	private function attemptLogin(array $credentials): bool
+	protected function attemptLogin(array $credentials): bool
 	{
-		return Auth::guard('web')->attempt($credentials);
+		return Auth::guard()->attempt($credentials);
 	}
 
 	/**
@@ -68,7 +66,7 @@ class SignInController extends Controller
 	 * @return ValidationException
 	 * @throws ValidationException
 	 */
-	private function sendFailedLoginResponse(array $request): ValidationException
+	protected function sendFailedLoginResponse(array $request): ValidationException
 	{
 		throw ValidationException::withMessages([
 			'email' => [trans('auth.failed')],

@@ -5,6 +5,7 @@ namespace Future\LaraApiAuth\Http\Controllers\Auth;
 use Future\LaraApiAuth\Adapters\Cookie as CookieAdapter;
 use Future\LaraApiAuth\Adapters\Passport;
 use Future\LaraApiAuth\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
@@ -16,7 +17,7 @@ class RefreshController extends Controller
 	 * @throws \JsonException
 	 * @throws \League\OAuth2\Server\Exception\OAuthServerException
 	 */
-	public function refreshToken(Request $request)
+	public function refreshToken(Request $request): JsonResponse
 	{
 		$tokens = Passport::generateRefreshToken(
 			[
@@ -26,13 +27,6 @@ class RefreshController extends Controller
 			$request->cookie('refresh-token')
 		);
 
-		return Response::json([
-				'token' => [
-					'token_type' => $tokens['token_type'],
-					'expires_in' => $tokens['expires_in'],
-					'access_token' => $tokens['access_token'],
-				]
-			])
-			->withCookie(CookieAdapter::make($tokens['refresh_token']));
+		return $this->sendLoginResponse($tokens);
 	}
 }

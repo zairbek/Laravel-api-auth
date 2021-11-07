@@ -39,7 +39,7 @@ class SignUpControllerTest extends FeatureTestCase
 				'password_confirmation' => '12345678'
 			]);
 
-		$response->assertCreated();
+		$response->assertSuccessful();
 
 		// Testing tokens
 		$this->assertArrayHasKey('token', $response->json());
