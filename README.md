@@ -5,11 +5,13 @@
 
 ## Todo
 - [ ] нужно для всех контроллеров повесить событий (до, после и во время)
-- [ ] lang files
 - [ ] Обработать exception 
-- [ ] Дописать тесты
-- [ ] Провести рефакторинг (смотреть файлы ResetPasswordController, ForgotPasswordController)
-- [ ] swagger документация (docs/swagger.json)
+- [ ] Дописать тесты (Unit)
+- [ ] ответы ошибок - swagger документация (docs/swagger.json)
+
+## API документация
+Api документация написано на swagger-e  
+Документация docs/swagger.json
 
 ## Установка
 Для установки пакета добавьте эти строчки в файл composer.json:
