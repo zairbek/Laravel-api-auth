@@ -27,7 +27,7 @@ class SignInControllerTest extends FeatureTestCase
 
 	protected function tearDown(): void
 	{
-		@unlink($this->user);
+		unset($this->user, $this->client);
 
 		parent::tearDown();
 	}

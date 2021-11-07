@@ -32,7 +32,7 @@ class ForgotPasswordControllerTest extends FeatureTestCase
 
 	protected function tearDown(): void
 	{
-		@unlink($this->user);
+		unset($this->user);
 		Schema::dropIfExists('password_resets');
 
 		parent::tearDown();

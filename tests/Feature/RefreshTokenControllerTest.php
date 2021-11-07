@@ -33,6 +33,13 @@ class RefreshTokenControllerTest extends FeatureTestCase
 		]);
 	}
 
+	protected function tearDown(): void
+	{
+		unset($this->client, $this->tokens);
+
+		parent::tearDown();
+	}
+
 	public function test(): void
 	{
 		$this->encryptCookies = false;

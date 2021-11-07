@@ -38,6 +38,13 @@ class SignOutControllerTest extends FeatureTestCase
 		]);
 	}
 
+	protected function tearDown(): void
+	{
+		unset($this->user, $this->client, $this->tokens);
+
+		parent::tearDown();
+	}
+
 	public function test()
 	{
 		$this->encryptCookies = false;
