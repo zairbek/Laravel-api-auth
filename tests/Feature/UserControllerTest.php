@@ -34,8 +34,7 @@ class UserControllerTest extends FeatureTestCase
 
 	protected function tearDown(): void
 	{
-		@unlink($this->user);
-		@unlink($this->tokens);
+		unset($this->user, $this->tokens);
 
 		parent::tearDown();
 	}

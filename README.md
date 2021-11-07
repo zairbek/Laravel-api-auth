@@ -8,7 +8,8 @@
 - [ ] lang files
 - [ ] Обработать exception 
 - [ ] Дописать тесты
-- [ ] Провести рефакторинг
+- [ ] Провести рефакторинг (смотреть файлы ResetPasswordController, ForgotPasswordController)
+- [ ] swagger документация (docs/swagger.json)
 
 ## Установка
 Для установки пакета добавьте эти строчки в файл composer.json:
