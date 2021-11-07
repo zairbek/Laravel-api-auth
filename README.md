@@ -81,3 +81,8 @@ class User extends Authenticatable
     ],
 ]
 ```
+В конце:
+```bash
+php artisan config:cache
+php artisan route:cache
+```
