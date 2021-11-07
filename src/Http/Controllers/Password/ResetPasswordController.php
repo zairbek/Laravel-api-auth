@@ -147,7 +147,7 @@ class ResetPasswordController extends Controller
 	 */
 	protected function sendResetResponse(Request $request, $response)
 	{
-		return Response::json(['message' => trans($response)]);
+		return Response::json(trans($response));
 	}
 
 	/**
