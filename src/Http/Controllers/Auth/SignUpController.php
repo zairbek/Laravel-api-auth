@@ -28,12 +28,6 @@ class SignUpController extends Controller
 	 */
 	public function signUp(Request $request): JsonResponse
 	{
-		$request->replace(
-			['email' => strtolower($request->email)] + $request->toArray()
-		);
-
-		$this->validateCredentials($request);
-
 		$clientCredentials = [
 			'client_id' => $request->header('Client-Id'),
 			'client_secret' => $request->header('Client-Secret'),
@@ -42,6 +36,12 @@ class SignUpController extends Controller
 		if (! $this->validateClientCredentials($clientCredentials)) {
 			return $this->sendUnauthorizedResponse('Unauthorized: Check please Client Id and Client Secret');
 		}
+
+		$request->replace(
+			['email' => strtolower($request->email)] + $request->toArray()
+		);
+
+		$this->validateCredentials($request);
 
 		$this->registerUser($request);
 

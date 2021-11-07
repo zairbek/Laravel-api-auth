@@ -20,6 +20,15 @@ class SignInController extends Controller
 	 */
 	public function signIn(Request $request)
 	{
+		$clientCredentials = [
+			'client_id' => $request->header('Client-Id'),
+			'client_secret' => $request->header('Client-Secret'),
+		];
+
+		if (! $this->validateClientCredentials($clientCredentials)) {
+			return $this->sendUnauthorizedResponse('Unauthorized: Check please Client Id and Client Secret');
+		}
+
 		$this->validateCredentials($request);
 
 		$credentials = [
@@ -29,15 +38,6 @@ class SignInController extends Controller
 
 		if (! $this->attemptLogin($credentials)) {
 			return $this->sendFailedLoginResponse($credentials);
-		}
-
-		$clientCredentials = [
-			'client_id' => $request->header('Client-Id'),
-			'client_secret' => $request->header('Client-Secret'),
-		];
-
-		if (! $this->validateClientCredentials($clientCredentials)) {
-			return $this->sendUnauthorizedResponse('Unauthorized: Check please Client Id and Client Secret');
 		}
 
 		$tokens = PassportAdapter::getTokenAndRefreshToken(array_merge($clientCredentials, $credentials));
