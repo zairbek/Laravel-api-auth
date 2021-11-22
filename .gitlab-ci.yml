@@ -1,18 +1,18 @@
-stages:
-  - test
-  - deploy
-
-test:
-  stage: test
-  image: phpwatch/docker-php:latest
-  only:
-    - tags
-    - master
-  before_script:
-    - php -v
-    - composer install --prefer-dist -q --no-progress
-  script:
-    - ./vendor/bin/phpunit -v --coverage-text --colors=never --stderr
+#stages:
+#  - test
+#  - deploy
+#
+#test:
+#  stage: test
+#  image: phpwatch/docker-php:latest
+#  only:
+#    - tags
+#    - master
+#  before_script:
+#    - php -v
+#    - composer install --prefer-dist -q --no-progress
+#  script:
+#    - ./vendor/bin/phpunit -v --coverage-text --colors=never --stderr
 
 deploy:
   only:
