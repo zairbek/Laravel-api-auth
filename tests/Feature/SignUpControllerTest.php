@@ -83,7 +83,12 @@ class SignUpControllerTest extends FeatureTestCase
 	 */
 	public function validation($params, $errors)
 	{
-		$this->postJson('/api/auth/sign-up', $params)
+		$this
+			->withHeaders([
+			'client-id' => $this->client->id,
+			'client-secret' => $this->client->secret
+		])
+			->postJson('/api/auth/sign-up', $params)
 			->assertJsonValidationErrors($errors)
 		;
 	}
