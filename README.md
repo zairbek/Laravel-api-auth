@@ -9,32 +9,36 @@
 - [ ] Установить статические анализаторы (phpstan, phpcs ...)
 - [ ] Дописать тесты (Unit)
 - [ ] Дописать ответы ошибок - swagger документация (docs/swagger.json)
-- [ ] Нужно перенести на gitlab
-- [ ] Написать CI/CD
-    - [ ] Запускать тесты
-    - [ ] Публикация в Package Registry (Packages & Registries -> Package Registry)
 
 ## API документация
 Api документация написано на swagger-e  
 Документация docs/swagger.json
 
 ## Установка
-Для установки пакета добавьте эти строчки в файл composer.json:
-```json
-{
-    "repositories": [
-        {
-            "type": "vcs",
-            "name": "future/lara-api-auth",
-            "url": "https://github.com/zairbek/lara-api-auth.git"
-        }
-    ],
-}
-```
-После добавление выполните команду:
+Так как наш репозиторий является приватным, нам сначала нужно авторизоваться в композере:
+1. Нам нужно получить access token от gitlab
+    ![Настройки](resources/img.png)
+    ![Настройки](resources/img_1.png)
+    ![Настройки](resources/img_2.png)
+   
+2. Авторизуемся:
 ```bash
-composer require future/lara-auth-api
+composer config http-basic.gitlab.com ___token___ <ACCESS_TOKEN> # вместо <ACCESS_TOKEN> вставьте ваш ACCESS_TOKEN из предыдущего шага  
 ```
+
+3. Устанавливаем:
+```bash
+composer config repositories.gitlab.com/14060480 '{"type": "composer", "url": "https://gitlab.com/api/v4/group/14060480/-/packages/composer/packages.json"}'
+```
+```bash
+composer req future/lara-api-auth
+```
+Или выбрать конкретную версию пакета
+```bash
+composer req future/lara-api-auth:0.1.0
+```
+> Примеры взято из Packages & Registries -> Package Registry 
+
 
 Опционально: для публикации конфигурации
 ```bash
